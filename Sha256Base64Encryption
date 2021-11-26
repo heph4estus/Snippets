@@ -1,0 +1,30 @@
+import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.Base64;
+
+public class Sha256Base64Encryption {
+	public static void main(String args[]) throws UnsupportedEncodingException {
+
+		String username = "REUGIE";
+		String data = "{ \"request-id\": \"202111260953501086\", \"sender\": \"2250101979790\", \"destination\": \"\", \"biller-code\": \"check-account\", \"biller-name\": \"CANAL\", \"bill-reference\": \"\", \"account-number\": \"\", \"extended-data\": { \"numCard\": \"14070896488301\", \"typeOperation\": \"1\" } }";
+		String requestdata = username+data;
+		System.out.println(hashSHA256(requestdata));
+	}
+
+	public static String hashSHA256(String value) throws UnsupportedEncodingException {
+		return new String(Base64.getEncoder().encode(sha256.get().digest(value.getBytes("UTF-8"))));
+	}
+
+	private static ThreadLocal<MessageDigest> sha256 = new ThreadLocal<MessageDigest>() {
+		@Override
+		protected MessageDigest initialValue() {
+			try {
+				return MessageDigest.getInstance("SHA-256");
+			} catch (NoSuchAlgorithmException e) {
+				e.printStackTrace();
+			}
+			return null;
+		}
+	};
+}
